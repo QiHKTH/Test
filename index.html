@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 预订系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 简单的淡入动画 */
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans">
+
+    <div class="bg-white shadow-sm sticky top-0 z-10">
+        <div class="max-w-3xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-xl font-bold text-blue-600">🔬 Lab 预订看板</h1>
+                <p class="text-xs text-gray-500">部门内部使用 | GitHub Pages Demo</p>
+            </div>
+            <div>
+                <input type="date" id="datePicker" class="border rounded px-3 py-1 text-sm bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto px-4 py-6">
+        
+        <div class="bg-white rounded-lg shadow border border-gray-200 overflow-hidden">
+            <div class="grid grid-cols-12 bg-gray-100 border-b p-3 text-sm font-semibold text-gray-600">
+                <div class="col-span-2">时间段</div>
+                <div class="col-span-10">状态 / 信息</div>
+            </div>
+            
+            <div id="scheduleList"></div>
+        </div>
+    </div>
+
+    <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 fade-in">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md p-6 relative">
+            <h2 class="text-lg font-bold mb-4">预订实验室</h2>
+            <p class="text-sm text-gray-500 mb-4">时间段: <span id="modalTimeSlot" class="font-mono text-blue-600"></span></p>
+            
+            <form id="bookingForm" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">姓名</label>
+                    <input type="text" id="inputName" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-blue-500 focus:border-blue-500" placeholder="例如: 张三">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">目的</label>
+                    <input type="text" id="inputPurpose" required class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 text-sm" placeholder="例如: 测试新样品">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">备注 (选填)</label>
+                    <textarea id="inputNote" rows="2" class="mt-1 block w-full border border-gray-300 rounded px-3 py-2 text-sm" placeholder="例如: 需要用到显微镜"></textarea>
+                </div>
+                
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 text-sm text-gray-600 hover:bg-gray-100 rounded">取消</button>
+                    <button type="submit" class="px-4 py-2 text-sm text-white bg-blue-600 hover:bg-blue-700 rounded shadow">确认预订</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 配置：实验室开放时间 09:00 - 18:00
+        const START_HOUR = 9;
+        const END_HOUR = 18; 
+        
+        let currentSelectedTime = null;
+        let currentDate = new Date().toISOString().split('T')[0];
+
+        // 初始化
+        document.getElementById('datePicker').value = currentDate;
+        document.getElementById('datePicker').addEventListener('change', (e) => {
+            currentDate = e.target.value;
+            renderSchedule();
+        });
+
+        // 模拟数据库读取 (Local Storage)
+        function getBookings(date) {
+            const data = localStorage.getItem('lab_bookings');
+            const allBookings = data ? JSON.parse(data) : {};
+            return allBookings[date] || {};
+        }
+
+        // 模拟数据库写入
+        function saveBooking(date, time, details) {
+            const data = localStorage.getItem('lab_bookings');
+            const allBookings = data ? JSON.parse(data) : {};
+            
+            if (!allBookings[date]) allBookings[date] = {};
+            allBookings[date][time] = details;
+            
+            localStorage.setItem('lab_bookings', JSON.stringify(allBookings));
+        }
+
+        // 生成时间段字符串 (例如 09:30)
+        function formatTime(hour, minute) {
+            const h = hour.toString().padStart(2, '0');
+            const m = minute.toString().padStart(2, '0');
+            return `${h}:${m}`;
+        }
+
+        // 渲染主列表
+        function renderSchedule() {
+            const container = document.getElementById('scheduleList');
+            container.innerHTML = ''; // 清空
+            const bookings = getBookings(currentDate);
+
+            // 循环生成半小时的时间段
+            for (let h = START_HOUR; h < END_HOUR; h++) {
+                for (let m of [0, 30]) {
+                    const timeStr = formatTime(h, m);
+                    const booking = bookings[timeStr];
+                    const isBooked = !!booking;
+
+                    // 创建行
+                    const row = document.createElement('div');
+                    row.className = `grid grid-cols-12 p-3 border-b text-sm items-center hover:bg-gray-50 transition ${isBooked ? 'bg-red-50 hover:bg-red-50' : ''}`;
+
+                    // 左侧：时间
+                    const timeCol = document.createElement('div');
+                    timeCol.className = 'col-span-2 font-mono text-gray-500';
+                    timeCol.innerText = timeStr;
+
+                    // 右侧：内容
+                    const contentCol = document.createElement('div');
+                    contentCol.className = 'col-span-10 flex justify-between items-center';
+
+                    if (isBooked) {
+                        // 已预订状态
+                        contentCol.innerHTML = `
+                            <div>
+                                <span class="font-bold text-gray-800">${booking.name}</span>
+                                <span class="mx-2 text-gray-400">|</span>
+                                <span class="text-gray-600">${booking.purpose}</span>
+                                ${booking.note ? `<div class="text-xs text-gray-400 mt-1">备注: ${booking.note}</div>` : ''}
+                            </div>
+                            <span class="px-2 py-1 bg-red-100 text-red-600 text-xs rounded border border-red-200">已占用</span>
+                        `;
+                    } else {
+                        // 空闲状态
+                        contentCol.innerHTML = `
+                            <span class="text-gray-400 italic">空闲</span>
+                            <button onclick="openModal('${timeStr}')" class="px-3 py-1 bg-white border border-blue-300 text-blue-600 text-xs rounded hover:bg-blue-50 transition">
+                                + 预订
+                            </button>
+                        `;
+                    }
+
+                    row.appendChild(timeCol);
+                    row.appendChild(contentCol);
+                    container.appendChild(row);
+                }
+            }
+        }
+
+        // Modal 操作逻辑
+        const modal = document.getElementById('bookingModal');
+        const form = document.getElementById('bookingForm');
+
+        function openModal(time) {
+            currentSelectedTime = time;
+            document.getElementById('modalTimeSlot').innerText = `${currentDate} ${time}`;
+            form.reset();
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+        }
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('inputName').value;
+            const purpose = document.getElementById('inputPurpose').value;
+            const note = document.getElementById('inputNote').value;
+
+            // 保存数据
+            saveBooking(currentDate, currentSelectedTime, { name, purpose, note });
+            
+            // 关闭并刷新
+            closeModal();
+            renderSchedule();
+            alert('预订成功！');
+        });
+
+        // 初始渲染
+        renderSchedule();
+    </script>
+</body>
+</html>
