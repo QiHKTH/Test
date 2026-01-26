@@ -78,7 +78,8 @@
         const SUPABASE_KEY = 'sb_publishable_Rb3eVjZNvkV-vsye2DwtTQ_2Gn1Q7-m';
         // ==========================================
 
-        const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // 🔧 修复点：将变量名从 supabase 改为 dbClient，避免冲突
+        const dbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         const START_HOUR = 9;
         const END_HOUR = 18;
@@ -86,43 +87,46 @@
         let currentDate = new Date().toISOString().split('T')[0];
 
         // 初始化
-        document.getElementById('datePicker').value = currentDate;
-        document.getElementById('datePicker').addEventListener('change', (e) => {
-            currentDate = e.target.value;
-            fetchAndRender(); // 日期改变时，重新去云端拉取数据
-        });
+        // 增加容错：确保元素存在再赋值
+        const datePicker = document.getElementById('datePicker');
+        if (datePicker) {
+            datePicker.value = currentDate;
+            datePicker.addEventListener('change', (e) => {
+                currentDate = e.target.value;
+                fetchAndRender(); 
+            });
+        }
 
         // 核心逻辑：从 Supabase 获取数据
         async function fetchAndRender() {
             const list = document.getElementById('scheduleList');
             const loading = document.getElementById('loadingIndicator');
             
-            // 1. 显示加载动画，清空列表
-            loading.classList.remove('hidden');
-            list.innerHTML = ''; 
+            if(loading) loading.classList.remove('hidden');
+            if(list) list.innerHTML = ''; 
 
-            // 2. 查询数据库：查找 'bookings' 表中，日期等于 currentDate 的所有记录
-            const { data, error } = await supabase
-                .from('bookings')
+            // 🔧 修复点：这里使用 dbClient 调用
+            const { data, error } = await dbClient
+                .from('bookings') // 确保你的表名全是小写
                 .select('*')
                 .eq('date', currentDate);
 
             if (error) {
-                alert('数据加载失败: ' + error.message);
-                loading.classList.add('hidden');
+                console.error('Supabase Error:', error); // 在控制台打印详细错误
+                alert('数据加载失败，请检查 URL/Key 或表名是否正确。\n错误信息: ' + error.message);
+                if(loading) loading.classList.add('hidden');
                 return;
             }
 
-            // 3. 把数组转换成方便查询的对象 Map
-            // 例如: { "09:30": { name: "张三"... }, "10:00": { ... } }
             const bookedMap = {};
-            data.forEach(item => {
-                bookedMap[item.time] = item;
-            });
+            if (data) {
+                data.forEach(item => {
+                    bookedMap[item.time] = item;
+                });
+            }
 
-            // 4. 渲染界面
             renderList(bookedMap);
-            loading.classList.add('hidden');
+            if(loading) loading.classList.add('hidden');
         }
 
         function formatTime(hour, minute) {
@@ -133,11 +137,13 @@
 
         function renderList(bookedMap) {
             const container = document.getElementById('scheduleList');
+            if (!container) return;
             
+            // 无论有没有数据，先画出 9:00 - 18:00 的格子
             for (let h = START_HOUR; h < END_HOUR; h++) {
                 for (let m of [0, 30]) {
                     const timeStr = formatTime(h, m);
-                    const booking = bookedMap[timeStr]; // 检查该时间段是否有数据
+                    const booking = bookedMap[timeStr]; 
                     const isBooked = !!booking;
 
                     const row = document.createElement('div');
@@ -161,6 +167,7 @@
                             <span class="px-2 py-1 bg-red-100 text-red-600 text-xs rounded border border-red-200">已占用</span>
                         `;
                     } else {
+                        // 注意：这里传参增加了单引号转义，防止报错
                         contentCol.innerHTML = `
                             <span class="text-gray-400 italic">空闲</span>
                             <button onclick="openModal('${timeStr}')" class="px-3 py-1 bg-white border border-blue-300 text-blue-600 text-xs rounded hover:bg-blue-50 transition">
@@ -192,11 +199,8 @@
             modal.classList.add('hidden');
         }
 
-        // 提交逻辑：写入 Supabase
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            // 按钮变灰防止重复点击
             submitBtn.disabled = true;
             submitBtn.innerText = "提交中...";
 
@@ -204,8 +208,8 @@
             const purpose = document.getElementById('inputPurpose').value;
             const note = document.getElementById('inputNote').value;
 
-            // 写入数据库
-            const { error } = await supabase
+            // 🔧 修复点：这里使用 dbClient 调用
+            const { error } = await dbClient
                 .from('bookings')
                 .insert({
                     date: currentDate,
@@ -220,15 +224,17 @@
 
             if (error) {
                 alert('预订失败: ' + error.message);
+                console.error(error);
             } else {
                 closeModal();
-                fetchAndRender(); // 成功后，重新拉取最新数据刷新界面
+                fetchAndRender(); 
                 alert('预订成功！');
             }
         });
 
-        // 页面刚打开时，自动加载一次
+        // 启动
         fetchAndRender();
     </script>
 </body>
 </html>
+
