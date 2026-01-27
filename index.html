@@ -8,45 +8,47 @@
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .fade-in { animation: fadeIn 0.2s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        textarea::-webkit-scrollbar { width: 8px; }
-        textarea::-webkit-scrollbar-track { background: #f1f1f1; }
-        textarea::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #F8FAFC;
+        }
+        .fade-in { animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Force date picker overlay */
+        textarea::-webkit-scrollbar { width: 6px; }
+        textarea::-webkit-scrollbar-track { background: transparent; }
+        textarea::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
         .date-input-overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; cursor: pointer;
-            z-index: 20;
+            opacity: 0; cursor: pointer; z-index: 20;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body class="text-slate-800 min-h-screen flex flex-col">
 
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-20 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+    <nav class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-3">
             
-            <div class="flex items-center gap-5">
-                <img src="https://www.kth.se/polopoly_fs/1.77257!/image/KTH_Logotyp_RGB_2013.png" alt="KTH Logo" class="h-16 w-auto object-contain">
-                
-                <div class="flex flex-col justify-center">
-                    <h1 class="text-xl font-bold text-slate-900 tracking-tight leading-tight">Helmet Lab Booking System</h1>
-                    <a href="https://www.kth.se/mth/neuronik" target="_blank" class="text-sm text-blue-600 font-medium hover:text-blue-800 hover:underline transition flex items-center gap-1">
-                        Division of Neuronic Engineering 
-                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-                    </a>
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-2xl shadow-sm border border-blue-100">
+                    ⛑️
                 </div>
+                
+                <h1 class="text-lg sm:text-xl font-semibold text-slate-800 tracking-tight">
+                    Helmet Lab Booking System
+                </h1>
             </div>
 
-            <div class="hidden md:block text-right">
-                <span class="text-base font-semibold text-slate-700 tracking-wide border-l-2 border-slate-200 pl-4">
-                    KTH Royal Institute of Technology
-                </span>
+            <div class="text-right">
+                <a href="https://www.kth.se/mth/neuronik" target="_blank" class="group flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-blue-600 transition-colors">
+                    Division of Neuronic Engineering 
+                    <svg class="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                </a>
             </div>
 
         </div>
@@ -54,48 +56,48 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
         
-        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-6">
             
-            <div class="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm">
-                <button onclick="changeDate(-1)" class="p-2 hover:bg-slate-100 rounded-lg text-slate-500 hover:text-blue-600 transition">
+            <div class="flex items-center gap-3 bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm">
+                <button onclick="changeDate(-1)" class="w-8 h-8 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 hover:text-blue-600 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
 
-                <div class="px-2 text-center min-w-[180px]">
-                    <div id="displayDate" class="font-bold text-slate-800 text-lg leading-tight">Loading...</div>
-                    <div id="displayDay" class="text-xs text-slate-500 uppercase tracking-wide font-medium">...</div>
-                </div>
-
-                <div class="relative group">
+                <div class="relative group min-w-[160px] text-center cursor-pointer px-2">
                     <input type="date" id="nativeDatePicker" class="date-input-overlay">
-                    <div class="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition cursor-pointer" title="Select Date">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-                        </svg>
-                    </div>
+                    
+                    <div id="displayDay" class="text-[10px] uppercase tracking-widest text-slate-400 font-medium mb-0.5">...</div>
+                    <div id="displayDate" class="text-base text-slate-700 font-medium leading-tight group-hover:text-blue-600 transition-colors">Loading...</div>
                 </div>
 
-                <button onclick="changeDate(1)" class="p-2 hover:bg-slate-100 rounded-lg text-slate-500 hover:text-blue-600 transition">
+                <button onclick="changeDate(1)" class="w-8 h-8 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 hover:text-blue-600 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
+
+                <div class="relative w-8 h-8 flex items-center justify-center rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition cursor-pointer ml-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4 pointer-events-none">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                    </svg>
+                    <input type="date" onchange="handleDateInput(this)" class="date-input-overlay" onclick="try{this.showPicker()}catch(e){}">
+                </div>
             </div>
 
             <div class="flex items-center gap-4">
-                <button onclick="goToToday()" class="px-4 py-2 bg-white border border-slate-200 text-slate-600 font-medium text-sm rounded-lg hover:bg-slate-50 hover:text-blue-600 shadow-sm transition">
+                <button onclick="goToToday()" class="px-4 py-1.5 bg-white border border-slate-200 text-slate-600 font-medium text-sm rounded-lg hover:border-blue-400 hover:text-blue-600 transition shadow-sm">
                     Today
                 </button>
 
-                <div class="hidden md:flex items-center gap-3 text-xs font-medium border-l border-slate-200 pl-4">
+                <div class="hidden md:flex items-center gap-4 text-xs font-medium border-l border-slate-200 pl-4">
                     <div class="flex items-center gap-1.5">
-                        <div class="w-2.5 h-2.5 rounded-full bg-white border border-slate-300 shadow-sm"></div>
+                        <div class="w-2 h-2 rounded-full bg-slate-200"></div>
                         <span class="text-slate-500">Available</span>
                     </div>
                     <div class="flex items-center gap-1.5">
-                        <div class="w-2.5 h-2.5 rounded-full bg-blue-100 border border-blue-400"></div>
+                        <div class="w-2 h-2 rounded-full bg-blue-500"></div>
                         <span class="text-slate-500">My Booking</span>
                     </div>
                     <div class="flex items-center gap-1.5">
-                        <div class="w-2.5 h-2.5 rounded-full bg-red-100 border border-red-300"></div>
+                        <div class="w-2 h-2 rounded-full bg-red-400"></div>
                         <span class="text-slate-500">Booked</span>
                     </div>
                 </div>
@@ -103,113 +105,132 @@
         </div>
 
         <div id="loadingSpinner" class="hidden flex justify-center py-20">
-            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-800"></div>
         </div>
         
         <div id="timeGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 select-none"></div>
-        <p class="text-xs text-slate-400 mt-4 text-center">Click on an available slot to book.</p>
+        
+        <p class="text-[10px] text-slate-400 mt-6 text-center font-medium opacity-60">
+            Click on an available slot to book.
+        </p>
 
     </main>
 
-    <footer class="border-t border-slate-200 bg-white mt-auto">
+    <footer class="border-t border-slate-200 bg-white/50">
         <div class="max-w-7xl mx-auto px-4 py-6 text-center">
-            <p class="text-sm text-slate-500">
-                KTH Flemingsberg, Hälsovägen 11C, 141 57 Huddinge, Sweden<span class="mx-2 text-slate-300">|</span> 
-                Contact: <a href="mailto:zhouz@kth.se" class="text-blue-600 hover:text-blue-800 hover:underline font-medium">zhouz@kth.se</a>
+            <p class="text-sm text-slate-500 font-medium">
+                KTH Flemingsberg <span class="mx-2 text-slate-300">|</span> 
+                Contact: <a href="mailto:zhouz@kth.se" class="text-slate-700 hover:text-blue-600 transition">zhouz@kth.se</a>
             </p>
         </div>
     </footer>
 
-    <div id="bookingModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" onclick="closeModal('bookingModal')"></div>
+    <div id="bookingModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onclick="closeModal('bookingModal')"></div>
         <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg fade-in">
-                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                        <h3 class="text-xl font-bold leading-6 text-slate-900 mb-1" id="modalTitle">New Booking</h3>
-                        <p class="text-sm text-slate-500 mb-6">Book a time slot for the lab.</p>
+            <div class="flex min-h-full items-center justify-center p-4">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all w-full max-w-lg fade-in border border-slate-100">
+                    <div class="px-6 py-6">
+                        <h3 class="text-lg font-semibold text-slate-900 mb-1" id="modalTitle">New Booking</h3>
+                        <p class="text-sm text-slate-500 mb-6">Enter your details to reserve the lab.</p>
                         
-                        <form id="createForm" class="space-y-4">
+                        <form id="createForm" class="space-y-5">
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Date</label>
-                                    <input type="text" id="modalDate" disabled class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700">
+                                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Date</label>
+                                    <input type="text" id="modalDate" disabled class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-600 font-medium">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-semibold text-slate-500 uppercase mb-1">Start Time</label>
-                                    <input type="text" id="modalStartTime" disabled class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 font-mono">
+                                    <label class="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1.5">Start</label>
+                                    <input type="text" id="modalStartTime" disabled class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-600 font-mono font-medium">
                                 </div>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">End Time <span class="text-red-500">*</span></label>
-                                <select id="modalEndTime" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"></select>
-                                <p class="text-xs text-slate-400 mt-1">Limited by closing time or next booking.</p>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5">End Time <span class="text-red-500">*</span></label>
+                                <div class="relative">
+                                    <select id="modalEndTime" class="appearance-none w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none bg-white transition shadow-sm"></select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </div>
+                                </div>
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">Name <span class="text-red-500">*</span></label>
-                                <input type="text" id="inputName" required placeholder="e.g. John Doe" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5">Name <span class="text-red-500">*</span></label>
+                                <input type="text" id="inputName" required placeholder="Your Full Name" class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition shadow-sm placeholder-slate-300">
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">Purpose <span class="text-red-500">*</span></label>
-                                <input type="text" id="inputPurpose" required placeholder="e.g. Impact Test" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5">Purpose <span class="text-red-500">*</span></label>
+                                <input type="text" id="inputPurpose" required placeholder="e.g. Impact Testing" class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition shadow-sm placeholder-slate-300">
                             </div>
 
                             <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">Note (Optional)</label>
-                                <textarea id="inputNote" rows="3" placeholder="Additional details..." class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
+                                <label class="block text-sm font-medium text-slate-700 mb-1.5">Note <span class="text-slate-400 font-normal text-xs">(Optional)</span></label>
+                                <textarea id="inputNote" rows="2" placeholder="Equipment needed, etc." class="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition shadow-sm placeholder-slate-300"></textarea>
                             </div>
                         </form>
                     </div>
-                    <div class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-slate-100">
-                        <button type="button" onclick="submitBooking()" id="btnSubmit" class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:ml-3 sm:w-auto">Confirm Booking</button>
-                        <button type="button" onclick="closeModal('bookingModal')" class="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 sm:mt-0 sm:w-auto">Cancel</button>
+                    <div class="bg-slate-50 px-6 py-4 flex flex-row-reverse gap-3 border-t border-slate-100">
+                        <button type="button" onclick="submitBooking()" id="btnSubmit" class="inline-flex justify-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-slate-800 transition">Confirm</button>
+                        <button type="button" onclick="closeModal('bookingModal')" class="inline-flex justify-center rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition">Cancel</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="viewModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm transition-opacity" onclick="closeModal('viewModal')"></div>
+    <div id="viewModal" class="fixed inset-0 z-50 hidden" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity" onclick="closeModal('viewModal')"></div>
         <div class="fixed inset-0 z-10 overflow-y-auto">
-            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md fade-in">
-                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                        <div class="flex justify-between items-start">
-                            <h3 class="text-xl font-bold leading-6 text-slate-900">Booking Details</h3>
-                            <span id="viewBadge" class="px-2 py-1 text-xs font-bold rounded uppercase"></span>
+            <div class="flex min-h-full items-center justify-center p-4">
+                <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all w-full max-w-md fade-in border border-slate-100">
+                    <div class="px-6 py-6">
+                        <div class="flex justify-between items-start mb-6">
+                            <h3 class="text-lg font-semibold text-slate-900">Booking Details</h3>
+                            <span id="viewBadge" class="px-2.5 py-0.5 text-[10px] font-bold rounded-full uppercase tracking-wide"></span>
                         </div>
 
-                        <div class="mt-4 space-y-4">
-                            <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                                <div class="text-xs text-slate-500 uppercase font-semibold">Time Slot</div>
-                                <div class="text-lg font-mono font-bold text-slate-800"><span id="viewTimeStart"></span> - <span id="viewTimeEnd"></span></div>
+                        <div class="space-y-5">
+                            <div class="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
+                                <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center text-slate-400 shadow-sm border border-slate-100">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <div>
+                                    <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">Time Slot</div>
+                                    <div class="text-base font-mono font-semibold text-slate-800"><span id="viewTimeStart"></span> - <span id="viewTimeEnd"></span></div>
+                                </div>
                             </div>
                             
-                            <div>
-                                <label class="block text-xs text-slate-500 uppercase font-semibold">Booked By</label>
-                                <div id="viewName" class="text-sm font-medium text-slate-900 text-lg"></div>
-                            </div>
+                            <div class="grid grid-cols-1 gap-4">
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">Booked By</label>
+                                    <div id="viewName" class="text-sm font-medium text-slate-900"></div>
+                                </div>
 
-                            <div>
-                                <label class="block text-xs text-slate-500 uppercase font-semibold">Purpose</label>
-                                <div id="viewPurpose" class="text-sm text-slate-700"></div>
-                            </div>
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">Purpose</label>
+                                    <div id="viewPurpose" class="text-sm text-slate-700"></div>
+                                </div>
 
-                            <div>
-                                <label class="block text-xs text-slate-500 uppercase font-semibold">Note</label>
-                                <div id="viewNote" class="text-sm text-slate-600 italic bg-white p-2 rounded border border-slate-100 min-h-[3rem]"></div>
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">Note</label>
+                                    <div id="viewNote" class="text-sm text-slate-600 italic"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-slate-100 gap-2">
-                        <button type="button" onclick="deleteBooking()" id="btnDelete" class="inline-flex w-full justify-center rounded-lg bg-red-100 px-3 py-2 text-sm font-semibold text-red-700 shadow-sm hover:bg-red-200 sm:w-auto">Delete</button>
-                        <button type="button" onclick="editBooking()" id="btnEdit" class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:w-auto">Edit</button>
-                        <button type="button" onclick="closeModal('viewModal')" class="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 sm:mt-0 sm:w-auto">Close</button>
+                    <div class="bg-slate-50 px-6 py-4 flex flex-row-reverse gap-3 border-t border-slate-100">
+                        <button type="button" onclick="closeModal('viewModal')" class="px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-800 transition">Close</button>
+                        <div class="flex-grow"></div>
+                        <button type="button" onclick="editBooking()" id="btnEdit" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 rounded-lg transition">
+                            Edit
+                        </button>
+                        <button type="button" onclick="deleteBooking()" id="btnDelete" class="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 rounded-lg transition">
+                            Delete
+                        </button>
                     </div>
                 </div>
             </div>
@@ -219,39 +240,36 @@
     <script>
         // ============================================================
         // 🔴🔴🔴 CONFIGURATION 🔴🔴🔴
-        // Please insert your specific URL and Key here
         const SUPABASE_URL = 'https://woqatjscmcofptajxfzh.supabase.co'; 
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndvcWF0anNjbWNvZnB0YWp4ZnpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk0MzExMDIsImV4cCI6MjA4NTAwNzEwMn0.vU61IgzKJj4kN9n8jKTCQ1oexj5zk2EDYpwTz_AhCM0';
         // ============================================================
 
         const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         const DISPLAY_START_HOUR = 8;
-        const DISPLAY_END_HOUR = 18.5;
-        const BOOKING_MAX_HOUR = 24; 
+        const DISPLAY_END_HOUR = 18;
+        const BOOKING_MAX_HOUR = 24.1; 
 
         let currentDate = new Date();
         let dailyBookings = [];
         let currentViewingId = null; 
         let editingBookingId = null; 
         
-        const nativeDatePicker = document.getElementById('nativeDatePicker');
+        // Use a generic function to handle date inputs
+        function handleDateInput(input) {
+            if(input.value) {
+                currentDate = new Date(input.value);
+                updateDateHeader();
+                fetchAndRender();
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             updateDateHeader();
             fetchAndRender();
 
-            nativeDatePicker.addEventListener('change', (e) => {
-                if(e.target.value) {
-                    currentDate = new Date(e.target.value);
-                    updateDateHeader();
-                    fetchAndRender();
-                }
-            });
-            
-            // Explicit trigger for some browsers
-            nativeDatePicker.addEventListener('click', (e) => {
-                try { e.target.showPicker(); } catch(err) {}
-            });
+            // Link native pickers
+            const pickers = document.querySelectorAll('.date-input-overlay');
+            pickers.forEach(p => p.addEventListener('change', (e) => handleDateInput(e.target)));
 
             const savedName = localStorage.getItem('lab_user_name');
             if(savedName) document.getElementById('inputName').value = savedName;
@@ -275,11 +293,16 @@
 
         // === CORE RENDER LOGIC ===
         function updateDateHeader() {
-            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const options = { month: 'short', day: 'numeric', year: 'numeric' }; // e.g. Jan 27, 2026
             const dayOptions = { weekday: 'long' };
+            
+            // Update Text
             document.getElementById('displayDate').innerText = currentDate.toLocaleDateString('en-US', options);
             document.getElementById('displayDay').innerText = currentDate.toLocaleDateString('en-US', dayOptions);
-            nativeDatePicker.value = getFormattedDateStr(currentDate);
+            
+            // Sync inputs
+            const dateStr = getFormattedDateStr(currentDate);
+            document.querySelectorAll('.date-input-overlay').forEach(el => el.value = dateStr);
         }
 
         function changeDate(days) {
@@ -337,38 +360,39 @@
 
                         let bgClass, borderClass, textClass, dotClass;
                         if (isMine) {
-                            bgClass = 'bg-blue-50'; borderClass = 'border-blue-300 hover:border-blue-500'; 
-                            textClass = 'text-blue-900'; dotClass = 'bg-blue-500';
+                            bgClass = 'bg-blue-50'; borderClass = 'border-blue-200 hover:border-blue-400'; 
+                            textClass = 'text-blue-700'; dotClass = 'bg-blue-500';
                         } else {
-                            bgClass = 'bg-red-50'; borderClass = 'border-red-200 hover:border-red-400';
-                            textClass = 'text-slate-800'; dotClass = 'bg-red-500';
+                            bgClass = 'bg-red-50'; borderClass = 'border-red-100 hover:border-red-300';
+                            textClass = 'text-slate-800'; dotClass = 'bg-red-400';
                         }
 
-                        card.className = `relative p-3 rounded-lg border shadow-sm transition cursor-pointer overflow-hidden ${bgClass} ${borderClass}`;
+                        card.className = `relative p-3 rounded-xl border shadow-sm transition-all cursor-pointer overflow-hidden group ${bgClass} ${borderClass}`;
                         card.onclick = () => openViewModal(booking);
 
                         if (isStart) {
                             card.innerHTML = `
-                                <div class="text-xs font-bold ${isMine ? 'text-blue-600' : 'text-red-600'} mb-1">${timeStr}</div>
-                                <div class="font-bold ${textClass} text-sm truncate">${escapeHtml(booking.name)}</div>
-                                <div class="text-xs text-slate-500 truncate">${escapeHtml(booking.purpose)}</div>
-                                <div class="absolute top-2 right-2 w-2 h-2 ${dotClass} rounded-full"></div>
+                                <div class="flex justify-between items-start mb-1">
+                                    <div class="text-[10px] font-bold opacity-70">${timeStr}</div>
+                                    <div class="w-2 h-2 ${dotClass} rounded-full"></div>
+                                </div>
+                                <div class="font-semibold ${textClass} text-sm truncate leading-tight">${escapeHtml(booking.name)}</div>
+                                <div class="text-[11px] text-slate-500 truncate mt-0.5">${escapeHtml(booking.purpose)}</div>
                             `;
                         } else {
-                            card.classList.add('opacity-70');
+                            card.classList.add('opacity-60');
                             card.innerHTML = `
-                                <div class="text-xs font-medium ${isMine ? 'text-blue-300' : 'text-red-300'}">${timeStr}</div>
-                                <div class="text-xs ${isMine ? 'text-blue-300' : 'text-red-200'} mt-1">Occupied</div>
+                                <div class="text-[10px] font-medium opacity-50">${timeStr}</div>
                             `;
                         }
                     } else {
-                        card.className = `group p-3 rounded-lg border border-slate-200 bg-white shadow-sm hover:border-blue-400 hover:ring-1 hover:ring-blue-400 transition cursor-pointer flex flex-col justify-between`;
+                        card.className = `group p-3 rounded-xl border border-slate-200 bg-white shadow-sm hover:border-blue-300 hover:ring-1 hover:ring-blue-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between`;
                         card.onclick = () => openBookingModal(timeStr);
                         card.innerHTML = `
-                            <div class="text-sm font-mono font-semibold text-slate-600 group-hover:text-blue-600">${timeStr}</div>
-                            <div class="text-xs text-slate-400 group-hover:text-blue-500 font-medium mt-2 flex items-center gap-1">
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-500"></span>
-                                Available
+                            <div class="text-sm font-mono font-medium text-slate-500 group-hover:text-blue-600 transition-colors">${timeStr}</div>
+                            <div class="flex items-center gap-1.5 mt-2">
+                                <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 group-hover:bg-blue-500"></div>
+                                <span class="text-[10px] text-slate-400 group-hover:text-blue-500 font-medium">Free</span>
                             </div>
                         `;
                     }
@@ -394,14 +418,14 @@
             if (isEdit && editData) {
                 editingBookingId = editData.id;
                 title.innerText = "Edit Booking";
-                btn.innerText = "Update Booking";
+                btn.innerText = "Update";
                 document.getElementById('inputName').value = editData.name;
                 document.getElementById('inputPurpose').value = editData.purpose;
                 document.getElementById('inputNote').value = editData.note || '';
             } else {
                 editingBookingId = null;
                 title.innerText = "New Booking";
-                btn.innerText = "Confirm Booking";
+                btn.innerText = "Confirm";
                 const savedName = localStorage.getItem('lab_user_name');
                 if(savedName) document.getElementById('inputName').value = savedName;
             }
@@ -452,7 +476,7 @@
 
             localStorage.setItem('lab_user_name', name);
             btn.disabled = true; 
-            btn.innerText = editingBookingId ? "Updating..." : "Processing...";
+            btn.innerText = "Saving...";
 
             let error, data;
 
@@ -472,7 +496,7 @@
             
             if (error) {
                 alert("Failed: " + error.message);
-                btn.innerText = editingBookingId ? "Update Booking" : "Confirm Booking";
+                btn.innerText = editingBookingId ? "Update" : "Confirm";
             } else {
                 if(data && data.length > 0) { saveMyBookingId(data[0].id); }
                 closeModal('bookingModal');
@@ -486,16 +510,16 @@
             const badge = document.getElementById('viewBadge');
             
             if (isMine) {
-                badge.className = "px-2 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded uppercase";
+                badge.className = "px-2.5 py-0.5 bg-blue-100 text-blue-700 text-[10px] font-bold rounded-full uppercase tracking-wide";
                 badge.innerText = "My Booking";
             } else {
-                badge.className = "px-2 py-1 bg-red-100 text-red-700 text-xs font-bold rounded uppercase";
+                badge.className = "px-2.5 py-0.5 bg-red-100 text-red-700 text-[10px] font-bold rounded-full uppercase tracking-wide";
                 badge.innerText = "Booked";
             }
 
             document.getElementById('viewName').innerText = booking.name;
             document.getElementById('viewPurpose').innerText = booking.purpose;
-            document.getElementById('viewNote').innerText = booking.note || "No notes provided.";
+            document.getElementById('viewNote').innerText = booking.note || "—";
             document.getElementById('viewTimeStart').innerText = booking.time;
             document.getElementById('viewTimeEnd').innerText = booking.end_time || "?";
             document.getElementById('viewModal').classList.remove('hidden');
@@ -542,4 +566,3 @@
     </script>
 </body>
 </html>
-
