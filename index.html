@@ -40,7 +40,7 @@
                     <img src="logo.png" alt="Helmet Lab Logo" class="w-full h-full object-contain">
                 </div>
                 
-                <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
+                <h1 class="text-lg sm:text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
                     Helmet Lab Booking
                 </h1>
             </div>
@@ -128,11 +128,12 @@
     </main>
 
     <footer class="border-t border-slate-200 bg-white/50">
-        <div class="max-w-7xl mx-auto px-4 py-8 text-center">
-            <p class="text-sm text-slate-500 font-medium">
-                KTH Flemingsberg <span class="mx-2 text-slate-300">|</span> 
-                Contact: <a href="mailto:zhouz@kth.se" class="text-slate-700 hover:text-blue-600 transition">zhouz@kth.se</a>
-            </p>
+        <div class="max-w-7xl mx-auto px-4 py-6 sm:py-8 text-center">
+            <div class="text-xs sm:text-sm text-slate-500 font-medium space-y-1 sm:space-y-0">
+                <div class="block sm:inline">KTH Flemingsberg</div>
+                <span class="hidden sm:inline mx-2 text-slate-300">|</span>
+                <div class="block sm:inline">Contact: <a href="mailto:zhouz@kth.se" class="text-slate-700 hover:text-blue-600 transition">zhouz@kth.se</a></div>
+            </div>
         </div>
     </footer>
 
@@ -143,7 +144,7 @@
                 <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all w-full max-w-lg fade-in border border-slate-100">
                     <div class="px-8 py-8">
                         <h3 class="text-2xl font-bold text-slate-900 mb-1" id="modalTitle">New Booking</h3>
-                        <p class="text-sm text-slate-500 mb-6">Enter your details to reserve the lab.</p>
+                        <p class="text-sm text-slate-500 mb-6">Enter details to reserve the lab.</p>
                         
                         <form id="createForm" class="space-y-6">
                             <div class="grid grid-cols-2 gap-5">
@@ -169,17 +170,17 @@
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Name <span class="text-red-500">*</span></label>
-                                <input type="text" id="inputName" required placeholder="Your Full Name" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition shadow-sm placeholder-slate-300">
+                                <input type="text" id="inputName" required placeholder="Your Name, e.g. Qi" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition shadow-sm placeholder-slate-300">
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Purpose <span class="text-red-500">*</span></label>
-                                <input type="text" id="inputPurpose" required placeholder="e.g. Impact Testing" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition shadow-sm placeholder-slate-300">
+                                <input type="text" id="inputPurpose" required placeholder="e.g. Testing" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition shadow-sm placeholder-slate-300">
                             </div>
 
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Note <span class="text-slate-400 font-normal text-xs">(Optional)</span></label>
-                                <textarea id="inputNote" rows="2" placeholder="Equipment needed, etc." class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition shadow-sm placeholder-slate-300"></textarea>
+                                <textarea id="inputNote" rows="2" placeholder="Equipment needed, broken, etc." class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition shadow-sm placeholder-slate-300"></textarea>
                             </div>
                         </form>
                     </div>
@@ -436,21 +437,19 @@
                         if (isStart) {
                             card.innerHTML = `
                                 <div class="flex justify-between items-center mb-2">
-                                    <div class="text-xs font-bold opacity-70 font-mono">${timeStr}</div>
+                                    <div class="text-base font-bold font-mono">${timeStr}</div>
                                     <div class="w-2.5 h-2.5 ${dotClass} rounded-full"></div>
                                 </div>
                                 <div class="font-bold ${textClass} text-lg truncate leading-tight">${escapeHtml(booking.name)}</div>
                                 <div class="text-xs text-slate-500 truncate mt-1 font-medium">${escapeHtml(booking.purpose)}</div>
                             `;
                         } else {
-                            // 3. Occupied Logic: Show "Occupied" for subsequent blocks
+                            // Occupied Logic: Show "Occupied" for subsequent blocks - unified with Free style
                             card.classList.add('opacity-90');
                             card.innerHTML = `
-                                <div class="flex justify-between items-center mb-1">
-                                    <div class="text-xs font-medium opacity-50 font-mono">${timeStr}</div>
-                                </div>
-                                <div class="flex items-center gap-1.5 mt-4 opacity-60">
-                                    <div class="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
+                                <div class="text-base font-bold font-mono mb-auto">${timeStr}</div>
+                                <div class="flex items-center gap-1.5 mt-auto pt-2 opacity-60">
+                                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 group-hover:bg-blue-500"></div>
                                     <span class="text-sm text-slate-400 group-hover:text-blue-500 font-medium">Occupied</span>
                                 </div>
                             `;
@@ -460,8 +459,8 @@
                         card.className = `group p-4 rounded-2xl border border-slate-200 bg-white shadow-sm hover:border-blue-300 hover:ring-1 hover:ring-blue-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between min-h-[110px]`;
                         card.onclick = () => openBookingModal(timeStr);
                         card.innerHTML = `
-                            <div class="text-sm font-mono font-medium text-slate-500 group-hover:text-blue-600 transition-colors">${timeStr}</div>
-                            <div class="flex items-center gap-1.5 mt-2">
+                            <div class="text-base font-mono font-bold text-slate-500 group-hover:text-blue-600 transition-colors">${timeStr}</div>
+                            <div class="flex items-center gap-1.5 mt-auto pt-2">
                                 <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 group-hover:bg-blue-500"></div>
                                 <span class="text-sm text-slate-400 group-hover:text-blue-500 font-medium">Free</span>
                             </div>
