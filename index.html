@@ -522,7 +522,7 @@
                     if (isEdit && b.id === editingBookingId) return false; 
                     const start = b.time;
                     const end = b.end_time || getEndTimeFromStart(b.time);
-                    return timeStr >= start && timeStr < end;
+                    return startTime < end && timeStr > start;
                 });
 
                 if (isOccupied) break; 
