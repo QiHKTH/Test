@@ -430,14 +430,14 @@
                             dotClass = 'bg-red-500';
                         }
 
-                        // 3. Grid Styling: Increased size (p-4, min-h)
-                        card.className = `relative p-4 rounded-2xl border shadow-sm transition-all cursor-pointer overflow-hidden group min-h-[110px] ${bgClass} ${borderClass}`;
+                        // 3. Grid Styling: Increased size (p-4, min-h) - flex for proper alignment
+                        card.className = `relative p-4 rounded-2xl border shadow-sm transition-all cursor-pointer overflow-hidden group min-h-[110px] flex flex-col justify-between ${bgClass} ${borderClass}`;
                         card.onclick = () => openViewModal(booking);
 
                         if (isStart) {
                             card.innerHTML = `
                                 <div class="flex justify-between items-center mb-2">
-                                    <div class="text-base font-bold font-mono">${timeStr}</div>
+                                    <div class="text-base font-mono">${timeStr}</div>
                                     <div class="w-2.5 h-2.5 ${dotClass} rounded-full"></div>
                                 </div>
                                 <div class="font-bold ${textClass} text-lg truncate leading-tight">${escapeHtml(booking.name)}</div>
@@ -447,7 +447,7 @@
                             // Occupied Logic: Show "Occupied" for subsequent blocks - unified with Free style
                             card.classList.add('opacity-90');
                             card.innerHTML = `
-                                <div class="text-base font-bold font-mono mb-auto">${timeStr}</div>
+                                <div class="text-base font-mono mb-auto">${timeStr}</div>
                                 <div class="flex items-center gap-1.5 mt-auto pt-2 opacity-60">
                                     <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 group-hover:bg-blue-500"></div>
                                     <span class="text-sm text-slate-400 group-hover:text-blue-500 font-medium">Occupied</span>
@@ -459,7 +459,7 @@
                         card.className = `group p-4 rounded-2xl border border-slate-200 bg-white shadow-sm hover:border-blue-300 hover:ring-1 hover:ring-blue-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between min-h-[110px]`;
                         card.onclick = () => openBookingModal(timeStr);
                         card.innerHTML = `
-                            <div class="text-base font-mono font-bold text-slate-500 group-hover:text-blue-600 transition-colors">${timeStr}</div>
+                            <div class="text-base font-mono text-slate-500 group-hover:text-blue-600 transition-colors">${timeStr}</div>
                             <div class="flex items-center gap-1.5 mt-auto pt-2">
                                 <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 group-hover:bg-blue-500"></div>
                                 <span class="text-sm text-slate-400 group-hover:text-blue-500 font-medium">Free</span>
