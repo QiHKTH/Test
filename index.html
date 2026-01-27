@@ -41,7 +41,7 @@
                 </div>
                 
                 <h1 class="text-lg sm:text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
-                    Helmet Lab Booking
+                    Helmet Lab Booking System
                 </h1>
             </div>
 
@@ -109,7 +109,7 @@
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-800"></div>
         </div>
         
-        <div id="timeGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-5 select-none mb-10"></div>
+        <div id="timeGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-6 gap-3 sm:gap-5 select-none mb-10"></div>
         
         <p class="text-xs text-slate-400 mt-4 text-center font-medium opacity-70">
             Click on an available slot to book.
@@ -430,14 +430,14 @@
                             dotClass = 'bg-red-500';
                         }
 
-                        // 3. Grid Styling: Increased size (p-4, min-h) - flex for proper alignment
-                        card.className = `relative p-4 rounded-2xl border shadow-sm transition-all cursor-pointer overflow-hidden group min-h-[110px] flex flex-col justify-between ${bgClass} ${borderClass}`;
+                        // 3. Grid Styling: flex for proper alignment, responsive padding and height
+                        card.className = `relative p-3 sm:p-4 rounded-2xl border shadow-sm transition-all cursor-pointer overflow-hidden group min-h-[100px] sm:min-h-[110px] flex flex-col justify-between ${bgClass} ${borderClass}`;
                         card.onclick = () => openViewModal(booking);
 
                         if (isStart) {
                             card.innerHTML = `
                                 <div class="flex justify-between items-center mb-2">
-                                    <div class="text-base font-mono">${timeStr}</div>
+                                    <div class="text-sm sm:text-base font-mono">${timeStr}</div>
                                     <div class="w-2.5 h-2.5 ${dotClass} rounded-full"></div>
                                 </div>
                                 <div class="font-bold ${textClass} text-lg truncate leading-tight">${escapeHtml(booking.name)}</div>
@@ -447,19 +447,19 @@
                             // Occupied Logic: Show "Occupied" for subsequent blocks - unified with Free style
                             card.classList.add('opacity-90');
                             card.innerHTML = `
-                                <div class="text-base font-mono mb-auto">${timeStr}</div>
+                                <div class="text-sm sm:text-base font-mono mb-auto">${timeStr}</div>
                                 <div class="flex items-center gap-1.5 mt-auto pt-2 opacity-60">
-                                    <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 group-hover:bg-blue-500"></div>
-                                    <span class="text-sm text-slate-400 group-hover:text-blue-500 font-medium">Occupied</span>
+                                    <div class="w-1.5 h-1.5 rounded-full ${dotClass}"></div>
+                                    <span class="text-sm font-medium ${isMine ? 'text-blue-500' : 'text-red-500'}">Occupied</span>
                                 </div>
                             `;
                         }
                     } else {
                         // Empty Slot
-                        card.className = `group p-4 rounded-2xl border border-slate-200 bg-white shadow-sm hover:border-blue-300 hover:ring-1 hover:ring-blue-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between min-h-[110px]`;
+                        card.className = `group p-3 sm:p-4 rounded-2xl border border-slate-200 bg-white shadow-sm hover:border-blue-300 hover:ring-1 hover:ring-blue-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between min-h-[100px] sm:min-h-[110px]`;
                         card.onclick = () => openBookingModal(timeStr);
                         card.innerHTML = `
-                            <div class="text-base font-mono text-slate-500 group-hover:text-blue-600 transition-colors">${timeStr}</div>
+                            <div class="text-sm sm:text-base font-mono text-slate-500 group-hover:text-blue-600 transition-colors">${timeStr}</div>
                             <div class="flex items-center gap-1.5 mt-auto pt-2">
                                 <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 group-hover:bg-blue-500"></div>
                                 <span class="text-sm text-slate-400 group-hover:text-blue-500 font-medium">Free</span>
