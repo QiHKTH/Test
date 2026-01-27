@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helmet Lab Booking System</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛑️</text></svg>">
+    
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23334155' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 12c0-4.4 3.6-8 8-8h4c4.4 0 8 3.6 8 8v1a3 3 0 0 1-3 3h-1c-.8 0-1.5-.5-1.8-1.2L15 12c-.3-.6-1-.9-1.7-.6l-2.6 1.3c-.8.4-1.8.1-2.2-.7l-.6-1.3c-.3-.6-1.1-.9-1.7-.5L4 11.4V12z'/%3E%3Cpath d='M10 4a8 8 0 0 1 8 5'/%3E%3Cpath d='M16.5 16c-1.5 1-3.5 1.5-5.5 1.5-3 0-5.5-2-6.5-4.5'/%3E%3C/svg%3E">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,7 +14,7 @@
     <style>
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: #F8FAFC;
+            background-color: #F8FAFC; 
         }
         .fade-in { animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -32,11 +33,15 @@
 <body class="text-slate-800 min-h-screen flex flex-col">
 
     <nav class="bg-white/80 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             
             <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-2xl shadow-sm border border-blue-100">
-                    ⛑️
+                <div class="w-10 h-10 flex items-center justify-center text-slate-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="w-8 h-8">
+                        <path d="M2 12c0-4.4 3.6-8 8-8h4c4.4 0 8 3.6 8 8v1a3 3 0 0 1-3 3h-1c-.8 0-1.5-.5-1.8-1.2L15 12c-.3-.6-1-.9-1.7-.6l-2.6 1.3c-.8.4-1.8.1-2.2-.7l-.6-1.3c-.3-.6-1.1-.9-1.7-.5L4 11.4V12z"/>
+                        <path d="M10 4a8 8 0 0 1 8 5"/>
+                        <path d="M16.5 16c-1.5 1-3.5 1.5-5.5 1.5-3 0-5.5-2-6.5-4.5"/>
+                    </svg>
                 </div>
                 
                 <h1 class="text-lg sm:text-xl font-semibold text-slate-800 tracking-tight">
@@ -58,28 +63,28 @@
         
         <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-6">
             
-            <div class="flex items-center gap-3 bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm">
-                <button onclick="changeDate(-1)" class="w-8 h-8 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 hover:text-blue-600 transition">
+            <div class="flex items-center gap-1 bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
+                <button onclick="changeDate(-1)" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-blue-600 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
 
-                <div class="relative group min-w-[160px] text-center cursor-pointer px-2">
+                <div class="relative group flex items-center gap-2 px-3 cursor-pointer">
                     <input type="date" id="nativeDatePicker" class="date-input-overlay">
                     
-                    <div id="displayDay" class="text-[10px] uppercase tracking-widest text-slate-400 font-medium mb-0.5">...</div>
-                    <div id="displayDate" class="text-base text-slate-700 font-medium leading-tight group-hover:text-blue-600 transition-colors">Loading...</div>
+                    <div class="text-slate-400 group-hover:text-blue-500 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                        </svg>
+                    </div>
+
+                    <div id="displayDateContainer" class="text-base text-slate-600 font-normal group-hover:text-blue-600 transition-colors select-none min-w-[180px] text-center">
+                        Loading...
+                    </div>
                 </div>
 
-                <button onclick="changeDate(1)" class="w-8 h-8 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 hover:text-blue-600 transition">
+                <button onclick="changeDate(1)" class="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:bg-slate-50 hover:text-blue-600 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
-
-                <div class="relative w-8 h-8 flex items-center justify-center rounded-xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition cursor-pointer ml-1">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="w-4 h-4 pointer-events-none">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-                    </svg>
-                    <input type="date" onchange="handleDateInput(this)" class="date-input-overlay" onclick="try{this.showPicker()}catch(e){}">
-                </div>
             </div>
 
             <div class="flex items-center gap-4">
@@ -89,7 +94,7 @@
 
                 <div class="hidden md:flex items-center gap-4 text-xs font-medium border-l border-slate-200 pl-4">
                     <div class="flex items-center gap-1.5">
-                        <div class="w-2 h-2 rounded-full bg-slate-200"></div>
+                        <div class="w-2 h-2 rounded-full bg-emerald-400"></div>
                         <span class="text-slate-500">Available</span>
                     </div>
                     <div class="flex items-center gap-1.5">
@@ -111,7 +116,7 @@
         <div id="timeGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 select-none"></div>
         
         <p class="text-[10px] text-slate-400 mt-6 text-center font-medium opacity-60">
-            Click on an available slot to book.
+            * Displaying core hours (08:00 - 18:00). Extended hours available in booking menu.
         </p>
 
     </main>
@@ -119,7 +124,7 @@
     <footer class="border-t border-slate-200 bg-white/50">
         <div class="max-w-7xl mx-auto px-4 py-6 text-center">
             <p class="text-sm text-slate-500 font-medium">
-                KTH Flemingsberg <span class="mx-2 text-slate-300">|</span> 
+                Click on a slot to book <span class="mx-2 text-slate-300">|</span> 
                 Contact: <a href="mailto:zhouz@kth.se" class="text-slate-700 hover:text-blue-600 transition">zhouz@kth.se</a>
             </p>
         </div>
@@ -247,14 +252,13 @@
         const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         const DISPLAY_START_HOUR = 8;
         const DISPLAY_END_HOUR = 18;
-        const BOOKING_MAX_HOUR = 24.1; 
+        const BOOKING_MAX_HOUR = 24; 
 
         let currentDate = new Date();
         let dailyBookings = [];
         let currentViewingId = null; 
         let editingBookingId = null; 
         
-        // Use a generic function to handle date inputs
         function handleDateInput(input) {
             if(input.value) {
                 currentDate = new Date(input.value);
@@ -267,9 +271,12 @@
             updateDateHeader();
             fetchAndRender();
 
-            // Link native pickers
             const pickers = document.querySelectorAll('.date-input-overlay');
-            pickers.forEach(p => p.addEventListener('change', (e) => handleDateInput(e.target)));
+            pickers.forEach(p => {
+                p.addEventListener('change', (e) => handleDateInput(e.target));
+                // 兼容点击触发
+                p.addEventListener('click', (e) => { try{e.target.showPicker()}catch(err){} });
+            });
 
             const savedName = localStorage.getItem('lab_user_name');
             if(savedName) document.getElementById('inputName').value = savedName;
@@ -293,16 +300,19 @@
 
         // === CORE RENDER LOGIC ===
         function updateDateHeader() {
-            const options = { month: 'short', day: 'numeric', year: 'numeric' }; // e.g. Jan 27, 2026
-            const dayOptions = { weekday: 'long' };
+            // 修改点：单行日期格式
+            const options = { month: 'short', day: 'numeric', year: 'numeric' }; // Jan 27, 2026
+            const dayOptions = { weekday: 'short' }; // Tue
             
-            // Update Text
-            document.getElementById('displayDate').innerText = currentDate.toLocaleDateString('en-US', options);
-            document.getElementById('displayDay').innerText = currentDate.toLocaleDateString('en-US', dayOptions);
+            const dateStr = currentDate.toLocaleDateString('en-US', options);
+            const dayStr = currentDate.toLocaleDateString('en-US', dayOptions);
+            
+            // 组合为: Jan 27, 2026 (Tue)
+            document.getElementById('displayDateContainer').innerText = `${dateStr} (${dayStr})`;
             
             // Sync inputs
-            const dateStr = getFormattedDateStr(currentDate);
-            document.querySelectorAll('.date-input-overlay').forEach(el => el.value = dateStr);
+            const isoDate = getFormattedDateStr(currentDate);
+            document.querySelectorAll('.date-input-overlay').forEach(el => el.value = isoDate);
         }
 
         function changeDate(days) {
@@ -358,23 +368,24 @@
                         const isStart = booking.time === timeStr;
                         const isMine = isMyBooking(booking.id);
 
-                        let bgClass, borderClass, textClass, dotClass;
+                        let bgClass, borderClass, textClass, badgeClass;
                         if (isMine) {
                             bgClass = 'bg-blue-50'; borderClass = 'border-blue-200 hover:border-blue-400'; 
-                            textClass = 'text-blue-700'; dotClass = 'bg-blue-500';
+                            textClass = 'text-blue-700'; badgeClass = 'text-blue-600 bg-blue-100';
                         } else {
                             bgClass = 'bg-red-50'; borderClass = 'border-red-100 hover:border-red-300';
-                            textClass = 'text-slate-800'; dotClass = 'bg-red-400';
+                            textClass = 'text-slate-800'; badgeClass = 'text-red-600 bg-red-100';
                         }
 
                         card.className = `relative p-3 rounded-xl border shadow-sm transition-all cursor-pointer overflow-hidden group ${bgClass} ${borderClass}`;
                         card.onclick = () => openViewModal(booking);
 
+                        // 修改点：1. 添加 Occupied 状态文本
                         if (isStart) {
                             card.innerHTML = `
-                                <div class="flex justify-between items-start mb-1">
-                                    <div class="text-[10px] font-bold opacity-70">${timeStr}</div>
-                                    <div class="w-2 h-2 ${dotClass} rounded-full"></div>
+                                <div class="flex justify-between items-center mb-1.5">
+                                    <div class="text-[10px] font-bold opacity-70 font-mono">${timeStr}</div>
+                                    <div class="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full ${badgeClass}">Occupied</div>
                                 </div>
                                 <div class="font-semibold ${textClass} text-sm truncate leading-tight">${escapeHtml(booking.name)}</div>
                                 <div class="text-[11px] text-slate-500 truncate mt-0.5">${escapeHtml(booking.purpose)}</div>
@@ -382,7 +393,7 @@
                         } else {
                             card.classList.add('opacity-60');
                             card.innerHTML = `
-                                <div class="text-[10px] font-medium opacity-50">${timeStr}</div>
+                                <div class="text-[10px] font-medium opacity-50 font-mono">${timeStr}</div>
                             `;
                         }
                     } else {
@@ -402,7 +413,6 @@
         }
 
         // ================== MODAL & LOGIC ==================
-
         function openBookingModal(startTime, isEdit = false, editData = null) {
             const form = document.getElementById('createForm');
             const title = document.getElementById('modalTitle');
@@ -412,7 +422,9 @@
             const endTimeSelect = document.getElementById('modalEndTime');
             endTimeSelect.innerHTML = '';
 
-            document.getElementById('modalDate').value = currentDate.toLocaleDateString();
+            // Format date for display in modal
+            const options = { month: 'short', day: 'numeric', year: 'numeric' };
+            document.getElementById('modalDate').value = currentDate.toLocaleDateString('en-US', options);
             document.getElementById('modalStartTime').value = startTime;
 
             if (isEdit && editData) {
