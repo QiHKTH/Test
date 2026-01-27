@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helmet Lab Booking System</title>
     
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none' stroke='%23334155' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 60 C 15 40, 30 20, 60 20 C 80 20, 90 35, 90 55 C 90 65, 80 75, 75 75 L 25 75 C 20 75, 15 70, 15 60 Z' /%3E%3Cpath d='M25 75 Q 40 90, 65 85' stroke-width='4' /%3E%3Cpath d='M30 35 L 50 30 L 70 35' stroke-width='3' /%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60' fill='none' stroke='%23334155' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 40 C 10 20, 30 5, 60 5 C 85 5, 95 25, 90 45 C 88 50, 80 55, 70 55 L 20 55 C 15 55, 12 50, 10 40 Z' /%3E%3Cpath d='M25 55 Q 45 75, 75 65' stroke-width='3' /%3E%3Cpath d='M30 20 L 50 15 L 70 20' stroke-width='3' /%3E%3C/svg%3E">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         body { 
@@ -33,21 +33,21 @@
 <body class="text-slate-800 min-h-screen flex flex-col">
 
     <nav class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-30 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 h-24 flex items-center justify-between">
             
-            <div class="flex items-center gap-5">
-                <div class="w-12 h-12 flex items-center justify-center text-slate-800">
-                    <svg viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-                        <path d="M20 100 C 15 70, 40 20, 110 20 C 160 20, 185 50, 180 90 C 178 105, 170 115, 150 115 L 40 115 C 25 115, 22 105, 20 100 Z" stroke="currentColor" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M50 50 L 90 40 L 140 50" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M45 75 L 85 65 L 145 75" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M40 115 Q 60 145, 100 135 L 140 120" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M140 115 L 150 130" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+            <div class="flex items-center gap-6">
+                <div class="w-14 h-14 flex items-center justify-center text-slate-800">
+                    <svg viewBox="0 0 120 80" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full">
+                        <path d="M10 50 C 10 20, 35 5, 75 5 C 105 5, 115 30, 110 50 C 108 60, 100 65, 85 65 L 25 65 C 15 65, 12 60, 10 50 Z" />
+                        <path d="M30 25 L 55 20 L 80 25" />
+                        <path d="M25 40 L 50 35 L 85 40" />
+                        <path d="M25 65 Q 45 90, 85 80" stroke-width="4" />
+                        <path d="M85 65 L 90 75" stroke-width="4" />
                     </svg>
                 </div>
                 
-                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">
-                    Helmet Lab Booking System
+                <h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
+                    Helmet Lab Booking
                 </h1>
             </div>
 
@@ -61,50 +61,50 @@
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow">
+    <main class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-12 flex-grow">
         
-        <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
             
-            <div class="flex items-center gap-2 bg-white p-1.5 rounded-2xl border border-slate-200 shadow-sm">
-                <button onclick="changeDate(-1)" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 hover:text-blue-600 transition">
+            <div class="flex items-center gap-3 bg-white p-2 rounded-2xl border border-slate-200 shadow-sm">
+                <button onclick="changeDate(-1)" class="w-12 h-12 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 hover:text-blue-600 transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
 
-                <div class="relative group flex items-center gap-3 px-4 cursor-pointer">
+                <div class="relative group flex items-center gap-3 px-6 cursor-pointer">
                     <input type="date" id="nativeDatePicker" class="date-input-overlay">
                     
                     <div class="text-slate-400 group-hover:text-blue-500 transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
                         </svg>
                     </div>
 
-                    <div id="displayDateContainer" class="text-lg text-slate-700 font-medium group-hover:text-blue-600 transition-colors select-none min-w-[200px] text-center">
+                    <div id="displayDateContainer" class="text-xl text-slate-800 font-semibold group-hover:text-blue-600 transition-colors select-none min-w-[220px] text-center">
                         Loading...
                     </div>
                 </div>
 
-                <button onclick="changeDate(1)" class="w-10 h-10 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 hover:text-blue-600 transition">
+                <button onclick="changeDate(1)" class="w-12 h-12 flex items-center justify-center rounded-xl text-slate-400 hover:bg-slate-50 hover:text-blue-600 transition">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
             </div>
 
-            <div class="flex items-center gap-6">
-                <button onclick="goToToday()" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-medium text-sm rounded-xl hover:border-blue-400 hover:text-blue-600 transition shadow-sm">
+            <div class="flex items-center gap-8">
+                <button onclick="goToToday()" class="px-6 py-3 bg-white border border-slate-200 text-slate-700 font-semibold text-base rounded-xl hover:border-blue-400 hover:text-blue-600 transition shadow-sm">
                     Today
                 </button>
 
-                <div class="hidden md:flex items-center gap-6 text-sm font-medium border-l-2 border-slate-100 pl-6">
+                <div class="hidden md:flex items-center gap-6 text-sm font-medium border-l-2 border-slate-100 pl-8">
                     <div class="flex items-center gap-2">
-                        <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+                        <div class="w-3.5 h-3.5 rounded-full bg-emerald-400"></div>
                         <span class="text-slate-500">Available</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+                        <div class="w-3.5 h-3.5 rounded-full bg-blue-500"></div>
                         <span class="text-slate-500">My Booking</span>
                     </div>
                     <div class="flex items-center gap-2">
-                        <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                        <div class="w-3.5 h-3.5 rounded-full bg-red-400"></div>
                         <span class="text-slate-500">Booked</span>
                     </div>
                 </div>
@@ -112,22 +112,22 @@
         </div>
 
         <div id="loadingSpinner" class="hidden flex justify-center py-20">
-            <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-slate-800"></div>
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-800"></div>
         </div>
         
-        <div id="timeGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 select-none mb-6"></div>
+        <div id="timeGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-5 select-none mb-10"></div>
         
-        <p class="text-xs text-slate-400 mt-4 text-center font-medium opacity-60">
-            * Displaying core hours (08:00 - 18:00). Extended hours available in booking menu.
+        <p class="text-xs text-slate-400 mt-4 text-center font-medium opacity-70">
+            Click on an available slot to book.
         </p>
 
-        <div class="mt-16 pt-8 border-t border-slate-200">
-            <h2 class="text-xl font-bold text-slate-900 flex items-center gap-3 mb-6">
+        <div class="mt-20 pt-10 border-t border-slate-200">
+            <h2 class="text-2xl font-bold text-slate-900 flex items-center gap-4 mb-8">
                 Today's Bookings 
-                <span class="text-base font-normal text-slate-400 bg-slate-100 px-3 py-1 rounded-full" id="todayListDate"></span>
+                <span class="text-base font-normal text-slate-500 bg-slate-100 px-4 py-1.5 rounded-full" id="todayListDate"></span>
             </h2>
             
-            <div id="todaysBookingsList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div id="todaysBookingsList" class="grid grid-cols-1 md:grid-cols-2 gap-5">
                 </div>
         </div>
 
@@ -148,7 +148,7 @@
             <div class="flex min-h-full items-center justify-center p-4">
                 <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all w-full max-w-lg fade-in border border-slate-100">
                     <div class="px-8 py-8">
-                        <h3 class="text-xl font-bold text-slate-900 mb-1" id="modalTitle">New Booking</h3>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-1" id="modalTitle">New Booking</h3>
                         <p class="text-sm text-slate-500 mb-6">Enter your details to reserve the lab.</p>
                         
                         <form id="createForm" class="space-y-6">
@@ -205,7 +205,7 @@
                 <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl transition-all w-full max-w-md fade-in border border-slate-100">
                     <div class="px-8 py-8">
                         <div class="flex justify-between items-start mb-6">
-                            <h3 class="text-lg font-bold text-slate-900">Booking Details</h3>
+                            <h3 class="text-xl font-bold text-slate-900">Booking Details</h3>
                             <span id="viewBadge" class="px-3 py-1 text-[10px] font-bold rounded-full uppercase tracking-wide"></span>
                         </div>
 
@@ -383,7 +383,7 @@
                 const isMine = isMyBooking(booking.id);
                 
                 const card = document.createElement('div');
-                card.className = `group bg-white rounded-2xl p-5 shadow-sm border border-slate-200 border-l-8 ${isMine ? 'border-l-blue-500' : 'border-l-slate-800'} flex justify-between items-start transition hover:shadow-lg hover:-translate-y-0.5`;
+                card.className = `group bg-white rounded-2xl p-6 shadow-sm border border-slate-200 border-l-8 ${isMine ? 'border-l-blue-500' : 'border-l-slate-800'} flex justify-between items-start transition hover:shadow-lg hover:-translate-y-0.5`;
                 
                 card.innerHTML = `
                     <div class="flex-grow">
@@ -445,7 +445,7 @@
                         }
 
                         // 3. Grid Styling: Increased size (p-4, min-h)
-                        card.className = `relative p-4 rounded-2xl border shadow-sm transition-all cursor-pointer overflow-hidden group min-h-[90px] ${bgClass} ${borderClass}`;
+                        card.className = `relative p-4 rounded-2xl border shadow-sm transition-all cursor-pointer overflow-hidden group min-h-[110px] ${bgClass} ${borderClass}`;
                         card.onclick = () => openViewModal(booking);
 
                         if (isStart) {
@@ -454,7 +454,7 @@
                                     <div class="text-xs font-bold opacity-70 font-mono">${timeStr}</div>
                                     <div class="w-2.5 h-2.5 ${dotClass} rounded-full"></div>
                                 </div>
-                                <div class="font-bold ${textClass} text-base truncate leading-tight">${escapeHtml(booking.name)}</div>
+                                <div class="font-bold ${textClass} text-lg truncate leading-tight">${escapeHtml(booking.name)}</div>
                                 <div class="text-xs text-slate-500 truncate mt-1 font-medium">${escapeHtml(booking.purpose)}</div>
                             `;
                         } else {
@@ -464,21 +464,21 @@
                                 <div class="flex justify-between items-center mb-1">
                                     <div class="text-xs font-medium opacity-50 font-mono">${timeStr}</div>
                                 </div>
-                                <div class="flex items-center gap-1.5 mt-2 opacity-60">
+                                <div class="flex items-center gap-1.5 mt-4 opacity-60">
                                     <div class="w-1.5 h-1.5 rounded-full bg-slate-400"></div>
-                                    <span class="text-xs text-slate-500 font-medium uppercase tracking-wide">Occupied</span>
+                                    <span class="text-sm text-slate-400 group-hover:text-blue-500 font-medium">Occupied</span>
                                 </div>
                             `;
                         }
                     } else {
                         // Empty Slot
-                        card.className = `group p-4 rounded-2xl border border-slate-200 bg-white shadow-sm hover:border-blue-300 hover:ring-1 hover:ring-blue-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between min-h-[90px]`;
+                        card.className = `group p-4 rounded-2xl border border-slate-200 bg-white shadow-sm hover:border-blue-300 hover:ring-1 hover:ring-blue-300 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between min-h-[110px]`;
                         card.onclick = () => openBookingModal(timeStr);
                         card.innerHTML = `
                             <div class="text-sm font-mono font-medium text-slate-500 group-hover:text-blue-600 transition-colors">${timeStr}</div>
                             <div class="flex items-center gap-1.5 mt-2">
                                 <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 group-hover:bg-blue-500"></div>
-                                <span class="text-xs text-slate-400 group-hover:text-blue-500 font-medium">Free</span>
+                                <span class="text-sm text-slate-400 group-hover:text-blue-500 font-medium">Free</span>
                             </div>
                         `;
                     }
