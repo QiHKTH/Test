@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Helmet Lab Booking System</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⛑️</text></svg>">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -14,52 +16,66 @@
         textarea::-webkit-scrollbar { width: 8px; }
         textarea::-webkit-scrollbar-track { background: #f1f1f1; }
         textarea::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        
+        /* Force date picker overlay */
+        .date-input-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; cursor: pointer;
+            z-index: 20;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-20 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-md">
-                    H
-                </div>
-                <div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between">
+            
+            <div class="flex items-center gap-5">
+                <img src="https://www.kth.se/polopoly_fs/1.77257!/image/KTH_Logotyp_RGB_2013.png" alt="KTH Logo" class="h-16 w-auto object-contain">
+                
+                <div class="flex flex-col justify-center">
                     <h1 class="text-xl font-bold text-slate-900 tracking-tight leading-tight">Helmet Lab Booking System</h1>
-                    <a href="https://www.kth.se/mth/neuronik" target="_blank" class="text-sm text-slate-500 font-medium hover:text-blue-600 hover:underline transition">
-                        Division of Neuronic Engineering ↗
+                    <a href="https://www.kth.se/mth/neuronik" target="_blank" class="text-sm text-blue-600 font-medium hover:text-blue-800 hover:underline transition flex items-center gap-1">
+                        Division of Neuronic Engineering 
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
                     </a>
                 </div>
             </div>
+
+            <div class="hidden md:block text-right">
+                <span class="text-base font-semibold text-slate-700 tracking-wide border-l-2 border-slate-200 pl-4">
+                    KTH Royal Institute of Technology
+                </span>
+            </div>
+
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
         
         <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             
-            <div class="flex items-center gap-3">
-                <button onclick="changeDate(-1)" class="p-2 bg-white border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-blue-600 transition shadow-sm">
+            <div class="flex items-center gap-2 bg-white p-1.5 rounded-xl border border-slate-200 shadow-sm">
+                <button onclick="changeDate(-1)" class="p-2 hover:bg-slate-100 rounded-lg text-slate-500 hover:text-blue-600 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
 
-                <div class="relative group flex items-center">
-                    <input type="date" id="hiddenDatePicker" class="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10">
-                    
-                    <div class="bg-white border border-slate-200 pl-4 pr-6 py-2 rounded-lg shadow-sm flex items-center gap-3 group-hover:border-blue-400 group-hover:ring-1 group-hover:ring-blue-400 transition cursor-pointer min-w-[240px]">
-                        <div class="text-slate-400 group-hover:text-blue-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
-                            </svg>                              
-                        </div>
-                        <div class="text-center flex-1">
-                            <div id="displayDate" class="font-bold text-slate-800 text-lg leading-tight group-hover:text-blue-700">Loading...</div>
-                            <div id="displayDay" class="text-xs text-slate-500 uppercase tracking-wide font-medium group-hover:text-blue-500">...</div>
-                        </div>
+                <div class="px-2 text-center min-w-[180px]">
+                    <div id="displayDate" class="font-bold text-slate-800 text-lg leading-tight">Loading...</div>
+                    <div id="displayDay" class="text-xs text-slate-500 uppercase tracking-wide font-medium">...</div>
+                </div>
+
+                <div class="relative group">
+                    <input type="date" id="nativeDatePicker" class="date-input-overlay">
+                    <div class="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-600 group-hover:text-white transition cursor-pointer" title="Select Date">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                        </svg>
                     </div>
                 </div>
 
-                <button onclick="changeDate(1)" class="p-2 bg-white border border-slate-200 rounded-lg text-slate-500 hover:bg-slate-50 hover:text-blue-600 transition shadow-sm">
+                <button onclick="changeDate(1)" class="p-2 hover:bg-slate-100 rounded-lg text-slate-500 hover:text-blue-600 transition">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
             </div>
@@ -91,14 +107,14 @@
         </div>
         
         <div id="timeGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 select-none"></div>
-        <p class="text-xs text-slate-400 mt-4 text-center italic">* Displaying core hours (08:00 - 18:00). Bookings can extend until midnight.</p>
+        <p class="text-xs text-slate-400 mt-4 text-center">Click on an available slot to book.</p>
 
     </main>
 
     <footer class="border-t border-slate-200 bg-white mt-auto">
-        <div class="max-w-6xl mx-auto px-4 py-6 text-center">
+        <div class="max-w-7xl mx-auto px-4 py-6 text-center">
             <p class="text-sm text-slate-500">
-                Click on an available slot to book <span class="mx-2 text-slate-300">|</span> 
+                KTH Flemingsberg, Hälsovägen 11C, 141 57 Huddinge, Sweden<span class="mx-2 text-slate-300">|</span> 
                 Contact: <a href="mailto:zhouz@kth.se" class="text-blue-600 hover:text-blue-800 hover:underline font-medium">zhouz@kth.se</a>
             </p>
         </div>
@@ -203,6 +219,7 @@
     <script>
         // ============================================================
         // 🔴🔴🔴 CONFIGURATION 🔴🔴🔴
+        // Please insert your specific URL and Key here
         const SUPABASE_URL = 'https://woqatjscmcofptajxfzh.supabase.co'; 
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndvcWF0anNjbWNvZnB0YWp4ZnpoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk0MzExMDIsImV4cCI6MjA4NTAwNzEwMn0.vU61IgzKJj4kN9n8jKTCQ1oexj5zk2EDYpwTz_AhCM0';
         // ============================================================
@@ -216,20 +233,26 @@
         let dailyBookings = [];
         let currentViewingId = null; 
         let editingBookingId = null; 
-        const hiddenDatePicker = document.getElementById('hiddenDatePicker');
+        
+        const nativeDatePicker = document.getElementById('nativeDatePicker');
 
         document.addEventListener('DOMContentLoaded', () => {
             updateDateHeader();
             fetchAndRender();
-            hiddenDatePicker.addEventListener('change', (e) => {
+
+            nativeDatePicker.addEventListener('change', (e) => {
                 if(e.target.value) {
                     currentDate = new Date(e.target.value);
                     updateDateHeader();
                     fetchAndRender();
                 }
             });
-            hiddenDatePicker.value = getFormattedDateStr(currentDate);
             
+            // Explicit trigger for some browsers
+            nativeDatePicker.addEventListener('click', (e) => {
+                try { e.target.showPicker(); } catch(err) {}
+            });
+
             const savedName = localStorage.getItem('lab_user_name');
             if(savedName) document.getElementById('inputName').value = savedName;
         });
@@ -256,7 +279,7 @@
             const dayOptions = { weekday: 'long' };
             document.getElementById('displayDate').innerText = currentDate.toLocaleDateString('en-US', options);
             document.getElementById('displayDay').innerText = currentDate.toLocaleDateString('en-US', dayOptions);
-            hiddenDatePicker.value = getFormattedDateStr(currentDate);
+            nativeDatePicker.value = getFormattedDateStr(currentDate);
         }
 
         function changeDate(days) {
