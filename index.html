@@ -19,16 +19,22 @@
 <body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
 
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-20 shadow-sm">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold text-lg">L</div>
-                <h1 class="text-xl font-bold text-slate-900 tracking-tight">Helmet Lab Booking System</h1>
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-md">
+                    H
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900 tracking-tight leading-tight">Helmet Lab Booking System</h1>
+                    <a href="https://www.kth.se/mth/neuronik" target="_blank" class="text-sm text-slate-500 font-medium hover:text-blue-600 hover:underline transition">
+                        Division of Neuronic Engineering ↗
+                    </a>
+                </div>
             </div>
-            <div class="text-sm text-slate-500 hidden sm:block">Division of Neuronic Engineering</div>
         </div>
     </nav>
 
-    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
         
         <div class="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
             
@@ -37,11 +43,19 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
 
-                <div class="relative group">
+                <div class="relative group flex items-center">
                     <input type="date" id="hiddenDatePicker" class="absolute inset-0 opacity-0 w-full h-full cursor-pointer z-10">
-                    <div class="bg-white border border-slate-200 px-6 py-2 rounded-lg shadow-sm text-center min-w-[200px] group-hover:border-blue-400 group-hover:ring-1 group-hover:ring-blue-400 transition cursor-pointer">
-                        <div id="displayDate" class="font-bold text-slate-800 text-lg leading-tight group-hover:text-blue-700">Loading...</div>
-                        <div id="displayDay" class="text-xs text-slate-500 uppercase tracking-wide font-medium group-hover:text-blue-500">...</div>
+                    
+                    <div class="bg-white border border-slate-200 pl-4 pr-6 py-2 rounded-lg shadow-sm flex items-center gap-3 group-hover:border-blue-400 group-hover:ring-1 group-hover:ring-blue-400 transition cursor-pointer min-w-[240px]">
+                        <div class="text-slate-400 group-hover:text-blue-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                            </svg>                              
+                        </div>
+                        <div class="text-center flex-1">
+                            <div id="displayDate" class="font-bold text-slate-800 text-lg leading-tight group-hover:text-blue-700">Loading...</div>
+                            <div id="displayDay" class="text-xs text-slate-500 uppercase tracking-wide font-medium group-hover:text-blue-500">...</div>
+                        </div>
                     </div>
                 </div>
 
@@ -57,7 +71,7 @@
 
                 <div class="hidden md:flex items-center gap-3 text-xs font-medium border-l border-slate-200 pl-4">
                     <div class="flex items-center gap-1.5">
-                        <div class="w-2.5 h-2.5 rounded-full bg-white border border-slate-300"></div>
+                        <div class="w-2.5 h-2.5 rounded-full bg-white border border-slate-300 shadow-sm"></div>
                         <span class="text-slate-500">Available</span>
                     </div>
                     <div class="flex items-center gap-1.5">
@@ -76,12 +90,13 @@
             <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
         </div>
         
-        <div id="timeGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3"></div>
+        <div id="timeGrid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 select-none"></div>
+        <p class="text-xs text-slate-400 mt-4 text-center italic">* Displaying core hours (08:00 - 18:00). Bookings can extend until midnight.</p>
 
     </main>
 
     <footer class="border-t border-slate-200 bg-white mt-auto">
-        <div class="max-w-5xl mx-auto px-4 py-6 text-center">
+        <div class="max-w-6xl mx-auto px-4 py-6 text-center">
             <p class="text-sm text-slate-500">
                 Click on an available slot to book <span class="mx-2 text-slate-300">|</span> 
                 Contact: <a href="mailto:zhouz@kth.se" class="text-blue-600 hover:text-blue-800 hover:underline font-medium">zhouz@kth.se</a>
@@ -95,8 +110,9 @@
             <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
                 <div class="relative transform overflow-hidden rounded-2xl bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg fade-in">
                     <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                        <h3 class="text-xl font-bold leading-6 text-slate-900 mb-1">New Booking</h3>
+                        <h3 class="text-xl font-bold leading-6 text-slate-900 mb-1" id="modalTitle">New Booking</h3>
                         <p class="text-sm text-slate-500 mb-6">Book a time slot for the lab.</p>
+                        
                         <form id="createForm" class="space-y-4">
                             <div class="grid grid-cols-2 gap-4">
                                 <div>
@@ -108,19 +124,23 @@
                                     <input type="text" id="modalStartTime" disabled class="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 font-mono">
                                 </div>
                             </div>
+
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-1">End Time <span class="text-red-500">*</span></label>
                                 <select id="modalEndTime" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"></select>
-                                <p class="text-xs text-slate-400 mt-1">Automatically limited by next booking.</p>
+                                <p class="text-xs text-slate-400 mt-1">Limited by closing time or next booking.</p>
                             </div>
+
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-1">Name <span class="text-red-500">*</span></label>
                                 <input type="text" id="inputName" required placeholder="e.g. John Doe" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                             </div>
+
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-1">Purpose <span class="text-red-500">*</span></label>
-                                <input type="text" id="inputPurpose" required placeholder="e.g. Microscope Analysis" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
+                                <input type="text" id="inputPurpose" required placeholder="e.g. Impact Test" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
                             </div>
+
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-1">Note (Optional)</label>
                                 <textarea id="inputNote" rows="3" placeholder="Additional details..." class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 outline-none"></textarea>
@@ -146,27 +166,33 @@
                             <h3 class="text-xl font-bold leading-6 text-slate-900">Booking Details</h3>
                             <span id="viewBadge" class="px-2 py-1 text-xs font-bold rounded uppercase"></span>
                         </div>
+
                         <div class="mt-4 space-y-4">
                             <div class="p-3 bg-slate-50 rounded-lg border border-slate-200">
                                 <div class="text-xs text-slate-500 uppercase font-semibold">Time Slot</div>
                                 <div class="text-lg font-mono font-bold text-slate-800"><span id="viewTimeStart"></span> - <span id="viewTimeEnd"></span></div>
                             </div>
+                            
                             <div>
                                 <label class="block text-xs text-slate-500 uppercase font-semibold">Booked By</label>
                                 <div id="viewName" class="text-sm font-medium text-slate-900 text-lg"></div>
                             </div>
+
                             <div>
                                 <label class="block text-xs text-slate-500 uppercase font-semibold">Purpose</label>
                                 <div id="viewPurpose" class="text-sm text-slate-700"></div>
                             </div>
+
                             <div>
                                 <label class="block text-xs text-slate-500 uppercase font-semibold">Note</label>
                                 <div id="viewNote" class="text-sm text-slate-600 italic bg-white p-2 rounded border border-slate-100 min-h-[3rem]"></div>
                             </div>
                         </div>
                     </div>
+                    
                     <div class="bg-slate-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-slate-100 gap-2">
-                        <button type="button" onclick="deleteBooking()" id="btnDelete" class="inline-flex w-full justify-center rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:w-auto">Delete Booking</button>
+                        <button type="button" onclick="deleteBooking()" id="btnDelete" class="inline-flex w-full justify-center rounded-lg bg-red-100 px-3 py-2 text-sm font-semibold text-red-700 shadow-sm hover:bg-red-200 sm:w-auto">Delete</button>
+                        <button type="button" onclick="editBooking()" id="btnEdit" class="inline-flex w-full justify-center rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 sm:w-auto">Edit</button>
                         <button type="button" onclick="closeModal('viewModal')" class="mt-3 inline-flex w-full justify-center rounded-lg bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 sm:mt-0 sm:w-auto">Close</button>
                     </div>
                 </div>
@@ -182,12 +208,14 @@
         // ============================================================
 
         const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        const START_HOUR = 8;
-        const END_HOUR = 18;
-        
+        const DISPLAY_START_HOUR = 8;
+        const DISPLAY_END_HOUR = 18;
+        const BOOKING_MAX_HOUR = 24; 
+
         let currentDate = new Date();
         let dailyBookings = [];
         let currentViewingId = null; 
+        let editingBookingId = null; 
         const hiddenDatePicker = document.getElementById('hiddenDatePicker');
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -202,17 +230,15 @@
             });
             hiddenDatePicker.value = getFormattedDateStr(currentDate);
             
-            // Restore last used name if available
             const savedName = localStorage.getItem('lab_user_name');
             if(savedName) document.getElementById('inputName').value = savedName;
         });
 
-        // === LOCAL STORAGE LOGIC FOR "MY BOOKING" ===
+        // === LOCAL STORAGE LOGIC ===
         function getMyBookingIds() {
             const ids = localStorage.getItem('my_lab_bookings');
             return ids ? JSON.parse(ids) : [];
         }
-
         function saveMyBookingId(id) {
             const ids = getMyBookingIds();
             if (!ids.includes(id)) {
@@ -220,11 +246,11 @@
                 localStorage.setItem('my_lab_bookings', JSON.stringify(ids));
             }
         }
-
         function isMyBooking(id) {
             return getMyBookingIds().includes(id);
         }
 
+        // === CORE RENDER LOGIC ===
         function updateDateHeader() {
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             const dayOptions = { weekday: 'long' };
@@ -276,7 +302,7 @@
                 slots.forEach(slot => { occupiedSlots[slot] = booking; });
             });
 
-            for (let h = START_HOUR; h < END_HOUR; h++) {
+            for (let h = DISPLAY_START_HOUR; h < DISPLAY_END_HOUR; h++) {
                 for (let m of [0, 30]) {
                     const timeStr = formatTime(h, m);
                     const booking = occupiedSlots[timeStr];
@@ -284,9 +310,8 @@
                     
                     if (booking) {
                         const isStart = booking.time === timeStr;
-                        const isMine = isMyBooking(booking.id); // Check ownership
+                        const isMine = isMyBooking(booking.id);
 
-                        // Choose Color Scheme: Blue if mine, Red if others
                         let bgClass, borderClass, textClass, dotClass;
                         if (isMine) {
                             bgClass = 'bg-blue-50'; borderClass = 'border-blue-300 hover:border-blue-500'; 
@@ -331,41 +356,64 @@
 
         // ================== MODAL & LOGIC ==================
 
-        function openBookingModal(startTime) {
-            document.getElementById('createForm').reset();
-            const savedName = localStorage.getItem('lab_user_name');
-            if(savedName) document.getElementById('inputName').value = savedName;
+        function openBookingModal(startTime, isEdit = false, editData = null) {
+            const form = document.getElementById('createForm');
+            const title = document.getElementById('modalTitle');
+            const btn = document.getElementById('btnSubmit');
+
+            form.reset();
+            const endTimeSelect = document.getElementById('modalEndTime');
+            endTimeSelect.innerHTML = '';
 
             document.getElementById('modalDate').value = currentDate.toLocaleDateString();
             document.getElementById('modalStartTime').value = startTime;
-            
-            const endTimeSelect = document.getElementById('modalEndTime');
-            endTimeSelect.innerHTML = '';
+
+            if (isEdit && editData) {
+                editingBookingId = editData.id;
+                title.innerText = "Edit Booking";
+                btn.innerText = "Update Booking";
+                document.getElementById('inputName').value = editData.name;
+                document.getElementById('inputPurpose').value = editData.purpose;
+                document.getElementById('inputNote').value = editData.note || '';
+            } else {
+                editingBookingId = null;
+                title.innerText = "New Booking";
+                btn.innerText = "Confirm Booking";
+                const savedName = localStorage.getItem('lab_user_name');
+                if(savedName) document.getElementById('inputName').value = savedName;
+            }
             
             let [h, m] = startTime.split(':').map(Number);
             let slotsAdded = 0;
             
             while (true) {
                 if (m === 30) { h++; m = 0; } else { m = 30; }
-                if (h >= END_HOUR) break; 
+                if (h >= BOOKING_MAX_HOUR) break; 
                 const timeStr = formatTime(h, m);
+                
                 const isOccupied = dailyBookings.some(b => {
+                    if (isEdit && b.id === editingBookingId) return false;
                     const start = b.time;
                     const end = b.end_time || getEndTimeFromStart(b.time);
                     return timeStr >= start && timeStr < end;
                 });
+
                 if (isOccupied) break; 
+                
                 const option = document.createElement('option');
                 option.value = timeStr;
                 option.text = timeStr + (slotsAdded === 0 ? " (30 mins)" : ` (${(slotsAdded+1)*0.5 + 0.5} hrs)`);
+                if (isEdit && timeStr === editData.end_time) option.selected = true;
                 endTimeSelect.appendChild(option);
                 slotsAdded++;
-                if (slotsAdded >= 8) break; 
+                if (slotsAdded >= 16) break; 
             }
+
             if (endTimeSelect.options.length === 0) {
                 alert("Cannot book this slot: Not enough time before closing or next meeting.");
                 return;
             }
+            if(isEdit && editData.end_time) endTimeSelect.value = editData.end_time;
             document.getElementById('bookingModal').classList.remove('hidden');
         }
 
@@ -379,33 +427,31 @@
 
             if(!name || !purpose) { alert("Please fill in required fields."); return; }
 
-            // Save name for convenience
             localStorage.setItem('lab_user_name', name);
+            btn.disabled = true; 
+            btn.innerText = editingBookingId ? "Updating..." : "Processing...";
 
-            btn.disabled = true; btn.innerText = "Processing...";
+            let error, data;
 
-            // ⚠️ IMPORTANT: .select() is required to get the returned ID
-            const { data, error } = await sbClient
-                .from('bookings')
-                .insert({
-                    date: getFormattedDateStr(currentDate),
-                    time: startTime,
-                    end_time: endTime,
-                    name: name,
-                    purpose: purpose,
-                    note: note
-                })
-                .select(); 
+            if (editingBookingId) {
+                const response = await sbClient.from('bookings')
+                    .update({ end_time: endTime, name: name, purpose: purpose, note: note })
+                    .eq('id', editingBookingId).select();
+                error = response.error; data = response.data;
+            } else {
+                const response = await sbClient.from('bookings')
+                    .insert({ date: getFormattedDateStr(currentDate), time: startTime, end_time: endTime, name: name, purpose: purpose, note: note })
+                    .select();
+                error = response.error; data = response.data;
+            }
 
-            btn.disabled = false; btn.innerText = "Confirm Booking";
-
+            btn.disabled = false;
+            
             if (error) {
                 alert("Failed: " + error.message);
+                btn.innerText = editingBookingId ? "Update Booking" : "Confirm Booking";
             } else {
-                // ✅ Save the new ID to local storage so it shows as "Mine"
-                if(data && data.length > 0) {
-                    saveMyBookingId(data[0].id);
-                }
+                if(data && data.length > 0) { saveMyBookingId(data[0].id); }
                 closeModal('bookingModal');
                 fetchAndRender(); 
             }
@@ -432,22 +478,21 @@
             document.getElementById('viewModal').classList.remove('hidden');
         }
 
-        async function deleteBooking() {
-            const isMine = isMyBooking(currentViewingId);
-            // Optional: Simple check to warn if deleting someone else's (client side only)
-            if (!isMine && !confirm("Warning: This does not appear to be your booking. Are you sure you want to delete it?")) return;
-            if (isMine && !confirm("Delete your booking?")) return;
+        function editBooking() {
+            const bookingToEdit = dailyBookings.find(b => b.id === currentViewingId);
+            if (!bookingToEdit) return;
+            closeModal('viewModal');
+            openBookingModal(bookingToEdit.time, true, bookingToEdit);
+        }
 
+        async function deleteBooking() {
+            if(!confirm("Are you sure you want to delete this booking?")) return;
             const btn = document.getElementById('btnDelete');
             btn.innerText = "Deleting...";
             const { error } = await sbClient.from('bookings').delete().eq('id', currentViewingId);
-            btn.innerText = "Delete Booking";
-            if (error) {
-                alert("Error: " + error.message);
-            } else {
-                closeModal('viewModal');
-                fetchAndRender();
-            }
+            btn.innerText = "Delete";
+            if (error) { alert("Error: " + error.message); } 
+            else { closeModal('viewModal'); fetchAndRender(); }
         }
 
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
