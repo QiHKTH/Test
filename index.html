@@ -41,7 +41,7 @@
                 </div>
                 
                 <h1 class="text-base sm:text-xl md:text-3xl font-bold text-slate-900 tracking-tight">
-                    Helmet Lab Booking
+                    Helmet Lab Booking System
                 </h1>
             </div>
 
@@ -174,6 +174,11 @@
                             </div>
 
                             <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Contact Information <span class="text-slate-400 font-normal text-xs">(Optional)</span></label>
+                                <input type="text" id="inputContact" placeholder="Email or Phone, e.g. qi@kth.se" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition shadow-sm placeholder-slate-300">
+                            </div>
+
+                            <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-2">Purpose <span class="text-red-500">*</span></label>
                                 <input type="text" id="inputPurpose" required placeholder="e.g. Testing" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition shadow-sm placeholder-slate-300">
                             </div>
@@ -219,6 +224,11 @@
                                 <div>
                                     <label class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1.5">Booked By</label>
                                     <div id="viewName" class="text-base font-semibold text-slate-900"></div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1.5">Contact Information</label>
+                                    <div id="viewContact" class="text-sm text-slate-700"></div>
                                 </div>
 
                                 <div>
@@ -490,6 +500,7 @@
                 title.innerText = "Edit Booking";
                 btn.innerText = "Update";
                 document.getElementById('inputName').value = editData.name;
+                document.getElementById('inputContact').value = editData.contact_info || '';
                 document.getElementById('inputPurpose').value = editData.purpose;
                 document.getElementById('inputNote').value = editData.note || '';
             } else {
@@ -537,6 +548,7 @@
         async function submitBooking() {
             const btn = document.getElementById('btnSubmit');
             const name = document.getElementById('inputName').value;
+            const contactInfo = document.getElementById('inputContact').value;
             const purpose = document.getElementById('inputPurpose').value;
             const note = document.getElementById('inputNote').value;
             const startTime = document.getElementById('modalStartTime').value;
@@ -552,12 +564,12 @@
 
             if (editingBookingId) {
                 const response = await sbClient.from('bookings')
-                    .update({ end_time: endTime, name: name, purpose: purpose, note: note })
+                    .update({ end_time: endTime, name: name, contact_info: contactInfo, purpose: purpose, note: note })
                     .eq('id', editingBookingId).select();
                 error = response.error; data = response.data;
             } else {
                 const response = await sbClient.from('bookings')
-                    .insert({ date: getFormattedDateStr(currentDate), time: startTime, end_time: endTime, name: name, purpose: purpose, note: note })
+                    .insert({ date: getFormattedDateStr(currentDate), time: startTime, end_time: endTime, name: name, contact_info: contactInfo, purpose: purpose, note: note })
                     .select();
                 error = response.error; data = response.data;
             }
@@ -588,6 +600,7 @@
             }
 
             document.getElementById('viewName').innerText = booking.name;
+            document.getElementById('viewContact').innerText = booking.contact_info || "—";
             document.getElementById('viewPurpose').innerText = booking.purpose;
             document.getElementById('viewNote').innerText = booking.note || "—";
             document.getElementById('viewTimeStart').innerText = booking.time;
