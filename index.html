@@ -558,8 +558,39 @@
 
             localStorage.setItem('lab_user_name', name);
             btn.disabled = true; 
-            btn.innerText = "Saving...";
+            btn.innerText = "Checking availability...";
 
+            // 🔒 Pre-submission conflict check (concurrency protection)
+            const dateStr = getFormattedDateStr(currentDate);
+            const { data: latestBookings, error: checkError } = await sbClient
+                .from('bookings')
+                .select('*')
+                .eq('date', dateStr);
+            
+            if (checkError) {
+                btn.disabled = false;
+                btn.innerText = editingBookingId ? "Update" : "Confirm";
+                alert("Error checking availability: " + checkError.message);
+                return;
+            }
+
+            // Verify if time slot is occupied (excluding current edit booking)
+            const hasConflict = latestBookings.some(b => {
+                if (editingBookingId && b.id === editingBookingId) return false;
+                const end = b.end_time || getEndTimeFromStart(b.time);
+                return startTime < end && endTime > b.time;
+            });
+
+            if (hasConflict) {
+                btn.disabled = false;
+                btn.innerText = editingBookingId ? "Update" : "Confirm";
+                alert("❌ Sorry, this time slot was just booked by someone else!\n\nPlease choose another time.");
+                closeModal('bookingModal');
+                fetchAndRender();
+                return;
+            }
+
+            btn.innerText = "Saving...";
             let error, data;
 
             if (editingBookingId) {
@@ -569,7 +600,7 @@
                 error = response.error; data = response.data;
             } else {
                 const response = await sbClient.from('bookings')
-                    .insert({ date: getFormattedDateStr(currentDate), time: startTime, end_time: endTime, name: name, contact_info: contactInfo, purpose: purpose, note: note })
+                    .insert({ date: dateStr, time: startTime, end_time: endTime, name: name, contact_info: contactInfo, purpose: purpose, note: note })
                     .select();
                 error = response.error; data = response.data;
             }
